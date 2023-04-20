@@ -13,6 +13,7 @@ st.title("LedGyPT PDF Parser")
 st.write("Upload a PDF file, extract text and send it to GPT API with a custom prompt.")
 
 # User interface components
+openai_api_key = st.text_input("Enter your OpenAI API key", placeholder="sk-…", type="password")
 pdf_file = st.file_uploader("Upload a PDF file", type=["pdf"])
 custom_prompt = st.text_area("Enter a custom prompt for GPT API", default_prompt)
 custom_model = st.selectbox("Enter OpenAI model", ('gpt-3.5-turbo', 'gpt-4'))
@@ -29,7 +30,7 @@ def pdf_to_text(file):
 
 # Function to send the extracted text to GPT-4 API
 def send_to_gpt4_api(text, prompt):
-    openai.api_key = st.secrets["openai_api_key"]
+    openai.api_key = openai_api_key
 
     response = openai.ChatCompletion.create(
         model=custom_model,
@@ -47,6 +48,8 @@ def send_to_gpt4_api(text, prompt):
 if submit_button and pdf_file and custom_prompt:
     with st.spinner("Extracting text from PDF..."):
         pdf_text = pdf_to_text(BytesIO(pdf_file.getvalue()))
+        with st.expander("Extracted text from PDF"):
+            st.code(pdf_text)
 
     with st.spinner("Sending text to GPT API..."):
         response = send_to_gpt4_api(pdf_text, custom_prompt)
