@@ -56,7 +56,7 @@ def send_to_gpt4_api(text, prompt):
     return response
 
 # Process the PDF file and send the extracted text to GPT-4 API
-if submit_button and pdf_file and custom_prompt:
+if submit_button and openai_api_key and pdf_file and custom_prompt:
     with st.spinner("Extracting text from PDF..."):
         pdf_text = pdf_to_text(BytesIO(pdf_file.getvalue()))
         with st.expander("Extracted text from PDF"):
