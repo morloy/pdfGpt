@@ -22,6 +22,10 @@ st.write("Upload a PDF file, extract text and send it to GPT API with a custom p
 # User interface components
 openai_api_key = st.text_input("Enter your OpenAI API key", placeholder="sk-…", type="password")
 pdf_file = st.file_uploader("Upload a PDF file", type=["pdf"])
+
+sample_document_name = "Option Grant Letter.pdf"
+with open(sample_document_name, "rb") as file:
+    btn = st.download_button(label="Download sample document", data=file, file_name=sample_document_name)
 custom_prompt = st.text_area("Enter a custom prompt for GPT API", default_prompt, height=200)
 custom_model = st.selectbox("Enter OpenAI model", ('gpt-3.5-turbo', 'gpt-4'))
 
