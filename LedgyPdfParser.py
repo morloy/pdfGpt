@@ -59,12 +59,13 @@ def send_to_gpt4_api(text, prompt):
 if submit_button and openai_api_key and pdf_file and custom_prompt:
     with st.spinner("Extracting text from PDF..."):
         pdf_text = pdf_to_text(BytesIO(pdf_file.getvalue()))
-        with st.expander("Extracted text from PDF"):
-            st.code(pdf_text)
+
 
     with st.spinner("Sending text to GPT API..."):
-        response = send_to_gpt4_api(pdf_text, custom_prompt)
+        result = send_to_gpt4_api(pdf_text, custom_prompt)
+        response = result["choices"][0]["message"]["content"]
 
     st.header("GPT API response:")
-    print(response)
-    st.json(response["choices"][0]["message"]["content"])
+    with st.expander("Response from GPT"):
+        st.code(response)
+    st.json(response)
